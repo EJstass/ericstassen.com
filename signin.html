@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <title>Eric Stassen</title>
+   <meta charset="UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="stylesheet" href="signin.css" />
+   <meta name="description" content="Eric Stassen's Personal Page">
+   <link rel="icon" href="img/eric-high-resolution-logo-white-on-transparent-background-icon.png">
+ </head>
+ <body>
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo">
+           <a href="index.html">
+               <img class="logo" src="img/eric-stassen-high-resolution-logo-color-on-transparent-background-name.png">
+           </a>
+       </div>
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links">
+          <!-- USING CHECKBOX HACK -->
+          <input type="checkbox" id="checkbox_toggle" />
+          <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+          <!-- NAVIGATION MENUS -->
+          <div class="menu">
+            <li><a href="about.html">About</a></li>
+            <li class="projects">
+              <a>Projects</a>
+              <ul class="dropdown">
+                <li><a href="ericstassen.html">EricStassen.com</a></li>
+              </ul>
+            </li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="signin.html">Sign In</a></li>
+          </div>
+        </ul>
+      </nav>
+
+   <section class="signin">
+    
+    <div class="non_photo">
+      <h1>
+        Sign In
+    </h1>
+      <div class="text">
+        <form action="/action_page.php">
+            <label for="fname">User</label><br>
+            <input type="text" id="user" name="user" value="User"><br>
+            <label for="lname">Password</label><br>
+            <input type="text" id="password" name="password" value="Password"><br><br>
+            <input type="submit" value="Submit">
+          </form>
+  </div>
+  </div>
+  <div class="photo">
+
+    </div>
+    <div class="location">
+      <a target="_blank" rel="noopener noreferrer"  href="https://en.wikipedia.org/wiki/Sequoia_National_Park">Where am I?</a>
+    </div>
+    </section>
+ </body>
+</html>

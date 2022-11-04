@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <title>Eric Stassen</title>
+   <meta charset="UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="stylesheet" href="ericstassen.css" />
+   <meta name="description" content="Eric Stassen's Personal Page">
+   <link rel="icon" href="img/eric-high-resolution-logo-white-on-transparent-background-icon.png">
+ </head>
+ <body>
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo">
+           <a href="index.html">
+               <img class="logo" src="img/eric-stassen-high-resolution-logo-color-on-transparent-background-name.png">
+           </a>
+       </div>
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links">
+          <!-- USING CHECKBOX HACK -->
+          <input type="checkbox" id="checkbox_toggle" />
+          <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+          <!-- NAVIGATION MENUS -->
+          <div class="menu">
+            <li><a href="about.html">About</a></li>
+            <li class="projects">
+              <a>Projects</a>
+              <ul class="dropdown">
+                <li><a href="ericstassen.html">EricStassen.com</a></li>
+              </ul>
+            </li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="signin.html">Sign In</a></li>
+          </div>
+        </ul>
+      </nav>
+
+      <section class="first_section">
+    
+        <div class="non_photo">
+          <h1>
+            EricStassen.com
+        </h1>
+          <div class="text">
+          <h2>
+            Overview
+        </h2>
+          <p>
+            I originally built this website to simply track some code that I scheduled to run daily.
+            Once I started building the homepage, however, I realized I have much more to share. I saw the opportunity to introduce myself and my work to the world!
+
+          </p>
+          <h2>
+            Implementation
+        </h2>
+          <p>
+            This Website is simply designed and coded using HTML, CSS, and JavaScript.
+            It is divided into a few tabs: Homepage, About, Projects, Contact, Sign In.
+            These tabs allow me to present everything I want to display in an organized fashion.
+            Plus, the Projects section is highly reusable, so when I have a new project to share it is very easy to add.
+            The site is hosted on AWS and uses several services, including Amplify, Cognito, and API Gateway.
+          </p>
+          <h2>
+            Details
+        </h2>
+          <p>
+            I could get into the details, but by visiting my site you are already aware of the essentials.
+            If you would like to see the front-end code, please see the Github Repository linked below.
+            The back-end is configured by AWS and includes many Lambda functions that change depending on the project. For security reasons and the constantly-changing nature of some projects, I will keep that code secret for now.
+          </p>
+        <h2>
+            Links
+        </h2>
+          <p>
+            HomePage: <a target="_blank" rel="noopener noreferrer" href="index.html">EricStassen.com</a>
+            |
+            GitHub: <a target="_blank" rel="noopener noreferrer" href="https://github.com/ericjstassen/ericstassen.com">EricStassen</a>    
+          </p>
+
+      </div>
+      </div>
+      <div class="photo">
+    
+        </div>
+        <div class="location">
+          <a target="_blank" rel="noopener noreferrer"  href="https://en.wikipedia.org/wiki/Pacific_Beach,_San_Diego">Where am I?</a>
+        </div>
+        </section>
+
+
+ </body>
+</html>
