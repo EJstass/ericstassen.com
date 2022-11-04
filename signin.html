@@ -47,13 +47,21 @@
     </h1>
       <div class="text">
         <!-- action="/action_page.php" -->
-        <form> 
-            <label for="fname">User</label><br>
-            <input type="text" id="user" name="user" value="User"><br>
-            <label for="lname">Password</label><br>
-            <input type="text" id="password" name="password" value="Password"><br><br>
-            <input type="submit" value="Submit">
-          </form>
+        <div class="form">
+          <div class="title">Welcome</div>
+          <div class="subtitle">Let's sign you in!</div>
+          <div class="input-container ic1">
+            <input id="username" class="input" type="text" placeholder=" " />
+            <div class="cut"></div>
+            <label for="username" class="placeholder">User Name</label>
+          </div>
+          <div class="input-container ic2">
+            <input id="password" class="input" type="text" placeholder=" " />
+            <div class="cut"></div>
+            <label for="password" class="placeholder">Password</label>
+          </div>
+          <button type="text" class="submit">Submit</button>
+        </div>
   </div>
   </div>
   <div class="photo">
