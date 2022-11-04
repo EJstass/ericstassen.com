@@ -13,7 +13,7 @@
     width:100%;
     font:  bold 12px/30px Georgia, sans-serif;
     /* background-color:#4056a1; */
-    background:url('img/dorchesterheights.png');
+    background:url('img/dorchesterheights.jpeg');
     background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -79,7 +79,7 @@
     display: none;
     border-radius: 8px;
     top: 35px;
-    right: 0px;
+    right: 20px;
    }
    .dropdown li + li {
     margin-top: 10px;
@@ -119,7 +119,7 @@ input[type=checkbox]{
     padding: 16px 0;
    }
    .menu li:hover {
-    display: inline-block;
+    /* display: inline-block; */
     background-color:#f13c20;
     transition: 0.3s ease;
    }
@@ -137,11 +137,32 @@ input[type=checkbox]{
     right:auto; */
     top: 30px;
     transform: translateX(35%);
-    /* margin: auto; */
+    right:calc(100% - 175px);
    }
-   .dropdown li:hover {
+   /* .dropdown li:hover {
     background-color: #f13c20;
+   } */
    }
+
+   /* Responsive Projects */
+input[type=checkbox]{
+    display: none;
+   } 
+   /*HAMBURGER MENU*/
+   .checkbox_projects {
+    user-select: none;
+   }
+
+   input[type=checkbox]:checked ~ .dropdown{
+    display: block;
+   }
+   ul.dropdown {
+    /* left: auto;
+    right:auto; */
+    top: 30px;
+    transform: translateX(35%);
+    /* position:absolute; */
+    /* left:-50%; */
    }
 
 /* PAGE CONTENT */
