@@ -5,6 +5,9 @@ ericstassen.map = ericstassen.map || {};
 
 var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.ericstassen.idToken') || null;
 
+document.getElementById('default').style.display = 'none';
+document.getElementById('loading').style.display = 'none';
+
 if (idtoken) {
     document.getElementById('default').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
