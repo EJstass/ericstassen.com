@@ -6,6 +6,9 @@ ericstassen.map = ericstassen.map || {};
 var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.ericstassen.idToken') || null;
 var project = localStorage.getItem("project")
 
+document.getElementById('default').style.display = 'block';
+document.getElementById('loading').style.display = 'none';
+
 if (idtoken && project) {
     document.getElementById('default').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
@@ -80,6 +83,8 @@ if (idtoken && project) {
                 document.body.style.backgroundPosition="center";
                 document.body.style.backgroundRepeat="no-repeat";
                 document.body.style.backgroundSize="cover";
+                var a = document.getElementById('a_location'); //or grab it by tagname etc
+                a.href = result[project]['location']
             }
             // function project(newUrl) {
             //     console.log(newUrl);
