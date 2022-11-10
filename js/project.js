@@ -72,7 +72,14 @@ if (idtoken && project) {
                 console.log('Response received from API: ', project, result);
                 console.log('Response received from API: ', result[project]);
                 document.getElementById('loading').style.display = 'none';
-                $("#project_html").append(result[project]);
+                $("#project_html").append(result[project]['overview']);
+                document.body.style.height="100%";
+                document.body.style.width="100%";
+                document.body.style.font="bold 12px/30px Georgia, sans-serif";
+                document.body.style.background="linear-gradient(0DEG, transparent, rgba(6, 31, 55, 0.5)), url('img/" + result[project]['image'] + "')";
+                document.body.style.backgroundPosition="center";
+                document.body.style.backgroundRepeat="no-repeat";
+                document.body.style.backgroundSize="cover";
             }
             // function project(newUrl) {
             //     console.log(newUrl);
