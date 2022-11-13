@@ -91,6 +91,10 @@ if (user && project && idtoken) {
                 // console.log('Response received from API: ', project, result);
                 // console.log('Response received from API: ', result[project]);
                 // console.log(result['project_button']);
+                var project_content = document.getElementById("contents_"+ result['project_button']);
+                if (project_content) {
+                    document.getElementById("contents_"+ button_name).remove();
+                }
                 $("#" + result['project_button']).append("<div id='contents_"+ result['project_button'] + "'>"
                 + "<p>Click on the button again to remove the results</p>"
                 +result['html']+
