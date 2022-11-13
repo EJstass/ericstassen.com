@@ -9,7 +9,13 @@ var project = localStorage.getItem("project")
 document.getElementById('default').style.display = 'block';
 document.getElementById('loading').style.display = 'none';
 
-if (user && project) {
+if (user) {
+    var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
+    } else {
+        var idtoken = null;
+    };
+
+if (user && project && idtoken) {
     document.getElementById('default').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
     var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
@@ -71,6 +77,36 @@ if (user && project) {
             }
         
             requestProjects()
+            function requestProject(project_name, project_button) {
+                $.ajax({
+                    method: 'POST',
+                    url: _config.api.invokeUrlprojects + '/project?project_name=' + project_name + '&project_button=' + project_button,
+                    headers: {
+                        Authorization: authToken
+                    },
+                    contentType: 'application/json',
+                    success: completeprojectRequest,
+                    error: function ajaxError(jqXHR, textStatus, errorThrown) {
+                        console.error('Error requesting projects: ', textStatus, ', Details: ', errorThrown);
+                        console.error('Response: ', jqXHR.responseText);
+                        // document.getElementById('loading').style.display = 'none';
+                        var project_link = "<p>You have been signed out. Please sign in again</p>";
+                        $("#project_links").append(project_link);
+                        signOut()
+                    }
+                });
+            }
+
+            function completeprojectRequest(result) {
+                // console.log('Response received from API: ', project, result);
+                // console.log('Response received from API: ', result[project]);
+                // console.log(result['project_button']);
+                $("#" + result['project_button']).append("<div id='contents_"+ result['project_button'] + "'>"
+                + "<p>Click on the button again to remove the results</p>"
+                +result['html']+
+                "</div>");
+                // alert(result['project_name'] + result['button_name'] + result['html'])
+            }
 
             function completeRequest(result) {
                 // console.log('Response received from API: ', project, result);
@@ -86,18 +122,25 @@ if (user && project) {
                 document.body.style.backgroundSize="cover";
                 var a = document.getElementById('a_location'); //or grab it by tagname etc
                 a.href = result[project]['location']
+                for (let button_name of result[project]['buttons']) {
+                    let btn = document.createElement("button");
+                    btn.type = "submit";
+                    btn.className = "submit";
+                    btn.name = button_name;
+                    btn.id = button_name;
+                    btn.innerHTML = button_name;
+                    btn.onclick = function () {
+                        var project_content = document.getElementById("contents_"+ button_name);
+                        if (project_content) {
+                            document.getElementById("contents_"+ button_name).remove();
+                        } else {
+                            requestProject(project, button_name);
+                        }
+                    };
+                    $("#project_links").append("<div class="+button_name+" id="+button_name+"></div>");
+                    $("." + button_name).append(btn)
+                  }
             }
-            // function project(newUrl) {
-            //     console.log(newUrl);
-            //     document.location.href = newUrl;
-            //   }
-            
-            // $(function onDocReady() {
-            //     $('#' + Object.keys(result[i])[0]).submit(handleSignin);
-            //     $('#signout').submit(signOut);
-            //     $('#registrationForm').submit(handleRegister);
-            //     $('#verifyForm').submit(handleVerify);
-            // });
         
         }(jQuery));
     } else {

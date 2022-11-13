@@ -9,9 +9,15 @@ document.getElementById('default').style.display = 'none';
 document.getElementById('loading').style.display = 'none';
 
 if (user) {
+    var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
+    // console.log(idtoken);
+} else {
+        var idtoken = null;
+    };
+
+if (user && idtoken) {
     document.getElementById('default').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
-    var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
     (function projectsScopeWrapper($) {
         var poolData = {
             UserPoolId: _config.cognito.userPoolId,
@@ -45,7 +51,7 @@ if (user) {
         if (idtoken) {
                 authToken = idtoken;
             } else {
-                window.location.href = './signin.html';
+                // window.location.href = './signin.html';
             };
         function requestProjects() {
             $.ajax({
@@ -57,8 +63,6 @@ if (user) {
                 contentType: 'application/json',
                 success: completeRequest,
                 error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                    // console.error('Error requesting projects: ', textStatus, ', Details: ', errorThrown);
-                    // console.error('Response: ', jqXHR.responseText);
                     document.getElementById('loading').style.display = 'none';
                     var project_link = "<p>You have been signed out. Please sign in again</p>";
                     $("#project_links").append(project_link);
@@ -71,38 +75,17 @@ if (user) {
 
         var reply_click = function()
         {
-            // alert("Button clicked, id "+this.id+", text"+this.innerHTML);
             localStorage.setItem("project", this.id)
-            // console.log(localStorage.getItem("project"))
         }
 
         function completeRequest(result) {
-            // console.log('Response received from API: ', result);
             document.getElementById('loading').style.display = 'none';
-            // var arrayLength = Object.keys(result).length;
             for (let i of Object.keys(result)) {
-                // console.log(result.i);
-                // var project_link = "<li><a href='#'>" + Object.keys(result[i])[0] + "</a></li>";
                 var project_link = '<br><form action="project.html"><button type="submit" class="submit" class="restricted_projects" id="' + i + '" value=' + i + '>' + i + '</button></form>';
                 $("#project_links").append(project_link);
                 document.getElementById(i).onclick = reply_click;
-                // var project_links = document.getElementById("project_links");
-                // // var mycontent = document.createElement("a");
-                // project_links.appendChild(document.createTextNode(Object.values(result[i])[0]));
-                // console.log(result[i]);
             }
         }
-        // function project(newUrl) {
-        //     console.log(newUrl);
-        //     document.location.href = newUrl;
-        //   }
-        
-        // $(function onDocReady() {
-        //     $('#' + Object.keys(result[i])[0]).submit(handleSignin);
-        //     $('#signout').submit(signOut);
-        //     $('#registrationForm').submit(handleRegister);
-        //     $('#verifyForm').submit(handleVerify);
-        // });
     
     }(jQuery));
     
