@@ -3,14 +3,15 @@
 var ericstassen = window.ericstassen || {};
 ericstassen.map = ericstassen.map || {};
 
-var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.ericstassen.idToken') || null;
+var user = localStorage.getItem('user') || null;
 
 document.getElementById('default').style.display = 'none';
 document.getElementById('loading').style.display = 'none';
 
-if (idtoken) {
+if (user) {
     document.getElementById('default').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
+    var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
     (function projectsScopeWrapper($) {
         var poolData = {
             UserPoolId: _config.cognito.userPoolId,

@@ -2,13 +2,17 @@
 
 var ericstassen = window.ericstassen || {};
 
-var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.ericstassen.idToken') || null;
+// console.log(localStorage);
+
+var user = localStorage.getItem('user') || null;
 
 // console.log(idtoken)
 
-if (idtoken) {
+if (user) {
     document.getElementById('signinForm').style.display = 'none';
     document.getElementById('signout').style.display = 'block';
+    $(".subtitle").append(" as: " + user);
+    var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
 }
 else {
     document.getElementById('signinForm').style.display = 'block';
@@ -43,6 +47,8 @@ else {
 
     function signOut() {
         userPool.getCurrentUser().signOut();
+        localStorage.removeItem('user');
+        localStorage.clear();
     };
 
     ericstassen.authToken = new Promise(function fetchCurrentAuthToken(resolve, reject) {
@@ -110,6 +116,7 @@ else {
             // newPasswordRequired: newPasswordRequired
         });
         // console.log(cognitoUser);
+        
     }
 
     function verify(username, code, onSuccess, onFailure) {
@@ -150,11 +157,13 @@ else {
         event.preventDefault();
         signin(username, password,
             function signinSuccess() {
+                localStorage.setItem('user', username);
                 // var theDiv = document.getElementById('subtitle');
                 // var content = document.createTextNode("Hi " + username + "! You successfully signed in!");
                 // theDiv.appendChild(content);
                 document.getElementById('signinForm').style.display = 'none';
                 document.getElementById('signout').style.display = 'block';
+                $(".subtitle").append(" as: " + username);
                 // $(".subtitle").append("Hi " + username + "! You successfully signed in!");
                 // var cognitoUser = UserPool.getCurrentUser();
                 // theDiv.appendChild(" " + cognitoUser);

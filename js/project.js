@@ -3,15 +3,16 @@
 var ericstassen = window.ericstassen || {};
 ericstassen.map = ericstassen.map || {};
 
-var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.ericstassen.idToken') || null;
+var user = localStorage.getItem('user') || null;
 var project = localStorage.getItem("project")
 
 document.getElementById('default').style.display = 'block';
 document.getElementById('loading').style.display = 'none';
 
-if (idtoken && project) {
+if (user && project) {
     document.getElementById('default').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
+    var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
     if (project) {
         $("h1").append(project);
         (function projectsScopeWrapper($) {
@@ -72,8 +73,8 @@ if (idtoken && project) {
             requestProjects()
 
             function completeRequest(result) {
-                console.log('Response received from API: ', project, result);
-                console.log('Response received from API: ', result[project]);
+                // console.log('Response received from API: ', project, result);
+                // console.log('Response received from API: ', result[project]);
                 document.getElementById('loading').style.display = 'none';
                 $("#project_html").append(result[project]['overview']);
                 document.body.style.height="100%";
