@@ -66,12 +66,7 @@ if (user && project && idtoken) {
                     contentType: 'application/json',
                     success: completeRequest,
                     error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                        console.error('Error requesting projects: ', textStatus, ', Details: ', errorThrown);
-                        console.error('Response: ', jqXHR.responseText);
-                        document.getElementById('loading').style.display = 'none';
-                        var project_link = "<p>You have been signed out. Please sign in again</p>";
-                        $("#project_links").append(project_link);
-                        signOut()
+                        window.location.replace("projects.html");
                     }
                 });
             }
@@ -87,12 +82,7 @@ if (user && project && idtoken) {
                     contentType: 'application/json',
                     success: completeprojectRequest,
                     error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                        console.error('Error requesting projects: ', textStatus, ', Details: ', errorThrown);
-                        console.error('Response: ', jqXHR.responseText);
-                        // document.getElementById('loading').style.display = 'none';
-                        var project_link = "<p>You have been signed out. Please sign in again</p>";
-                        $("#project_links").append(project_link);
-                        signOut()
+                        window.location.replace("projects.html");
                     }
                 });
             }
