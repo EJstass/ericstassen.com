@@ -95,7 +95,7 @@ if (user && project && idtoken) {
                 if (project_content) {
                     document.getElementById("contents_"+ result['project_button']).remove();
                 }
-                $("#" + result['project_button']).append("<div id='contents_" + result['project_button'] + "'>"
+                $("#" + result['project_button']).append("<div id='contents_" + result['project_button'] + "' style='overflow-x:auto;'>"
                 + "<p>Click on the button again to remove the results</p>"
                 +result['html']+
                 "</div>");

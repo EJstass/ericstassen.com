@@ -172,9 +172,10 @@
 /* PAGE CONTENT */
 .projects {
     background-color: transparent;
-    overflow:auto;
+    overflow-y:auto;
     margin-right: 0%;
     margin-left: 0%;
+    overflow-x:hidden;
             /* background-color:#4056a1; */
 }
 .photo {
@@ -263,6 +264,7 @@
     margin-bottom:5px;
     padding: 2px;
 }
+
 @media (max-width: 900px) { /*768px*/
     .projects h1 {
         color:white;
