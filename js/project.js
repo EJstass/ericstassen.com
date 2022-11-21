@@ -72,6 +72,21 @@ if (user && project && idtoken) {
             }
         
             requestProjects()
+            function requestProjectdropdown(project_name, project_button, dropdown_value) {
+                $.ajax({
+                    method: 'POST',
+                    url: _config.api.invokeUrlprojects + '/projectdropdown?project_name=' + project_name + '&project_button=' + project_button + '&date=' + dropdown_value,
+                    headers: {
+                        Authorization: authToken
+                    },
+                    contentType: 'application/json',
+                    success: completeprojectdropdownRequest,
+                    error: function ajaxError(jqXHR, textStatus, errorThrown) {
+                        $('#' + project_button + "_dropdowncontents").html('error');
+                    }
+                });
+            }
+
             function requestProject(project_name, project_button) {
                 $.ajax({
                     method: 'POST',
@@ -87,10 +102,12 @@ if (user && project && idtoken) {
                 });
             }
 
+            function completeprojectdropdownRequest(result) {
+                $('#' + "Transactions" + "_dropdowncontents").html(result['html']); //result['project_button']
+                // alert(result['project_name'] + result['button_name'] + result['html'])
+            }
+
             function completeprojectRequest(result) {
-                // console.log('Response received from API: ', project, result);
-                // console.log('Response received from API: ', result[project]);
-                // console.log(result['project_button']);
                 var project_content = document.getElementById("contents_"+ result['project_button']);
                 if (project_content) {
                     document.getElementById("contents_"+ result['project_button']).remove();
@@ -99,6 +116,15 @@ if (user && project && idtoken) {
                 + "<p>Click on the button again to remove the results</p>"
                 +result['html']+
                 "</div>");
+                if (result['dropdown'] === "TRUE") {
+                    document.getElementById(result['project_button'] + "_dropdown").onchange = function(){
+                        if (document.getElementById(result['project_button'] + "_dropdown").value === 'none') {
+                            $('#' + result['project_button'] + "_dropdowncontents").html('');
+                        } else {
+                            requestProjectdropdown(project,result['project_button'], document.getElementById(result['project_button'] + "_dropdown").value)
+                        }
+                    }
+                }
                 // alert(result['project_name'] + result['button_name'] + result['html'])
             }
 
