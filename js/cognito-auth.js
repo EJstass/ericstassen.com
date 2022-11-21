@@ -142,7 +142,7 @@ else {
     }
 
     function toUsername(username) {
-        return username.replace('@', '-at-');
+        return username.replace('@', '-at-').toLowerCase();
     }
 
     /*
@@ -162,7 +162,7 @@ else {
         event.preventDefault();
         signin(username, password,
             function signinSuccess() {
-                localStorage.setItem('user', username);
+                localStorage.setItem('user', username.toLowerCase());
                 // var theDiv = document.getElementById('subtitle');
                 // var content = document.createTextNode("Hi " + username + "! You successfully signed in!");
                 // theDiv.appendChild(content);
