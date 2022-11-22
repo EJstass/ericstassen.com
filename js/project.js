@@ -103,7 +103,7 @@ if (user && project && idtoken) {
             }
 
             function completeprojectdropdownRequest(result) {
-                $('#' + "Transactions" + "_dropdowncontents").html(result['html']); //result['project_button']
+                $('#' + result['project_button'] + "_dropdowncontents").html(result['html']); //result['project_button']
                 // alert(result['project_name'] + result['button_name'] + result['html'])
             }
 
