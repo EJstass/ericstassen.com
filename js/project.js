@@ -126,15 +126,6 @@ if (user && project && idtoken) {
                 + "<p>Click on the button again to remove the results</p>"
                 +result['html']+
                 "</div>");
-                if (result['dropdown'] === "TRUE") {
-                    document.getElementById(result['project_button'] + "_dropdown").onchange = function(){
-                        if (document.getElementById(result['project_button'] + "_dropdown").value === 'none') {
-                            $('#' + result['project_button'] + "_dropdowncontents").html('');
-                        } else {
-                            requestProjectdropdown(project,result['project_button'], document.getElementById(result['project_button'] + "_dropdown").value)
-                        }
-                    }
-                };
                 if (result['graph'] === "TRUE") {
                     $("#contents_" + result['project_button']).append('<div class="chart-container" style="height:300px; width:100%;"><canvas id="Chart_'  + result['project_button'] + '"></canvas></div>'); // width:100%;max-width:1000px;min-height:300px;
                     
@@ -205,6 +196,15 @@ if (user && project && idtoken) {
                     }
                     });
                 }
+                if (result['dropdown'] === "TRUE") {
+                    document.getElementById(result['project_button'] + "_dropdown").onchange = function(){
+                        if (document.getElementById(result['project_button'] + "_dropdown").value === 'none') {
+                            $('#' + result['project_button'] + "_dropdowncontents").html('');
+                        } else {
+                            requestProjectdropdown(project,result['project_button'], document.getElementById(result['project_button'] + "_dropdown").value)
+                        }
+                    }
+                };
                 // alert(result['project_name'] + result['button_name'] + result['html'])
             }
 
