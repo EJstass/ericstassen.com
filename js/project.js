@@ -126,7 +126,7 @@ if (user && project && idtoken) {
                     }
                 };
                 if (result['graph'] === "TRUE") {
-                    $("#contents_" + result['project_button']).append('<canvas id="Chart_'  + result['project_button'] + '" style="width:100%;max-width:1000px"></canvas>');
+                    $("#contents_" + result['project_button']).append('<canvas id="Chart_'  + result['project_button'] + '" style="width:100%;max-width:1000px;min-height:200px;"></canvas>');
                     
                     var xValues = result['graph_data'][result['graph_data']['x-axis']];
                     
