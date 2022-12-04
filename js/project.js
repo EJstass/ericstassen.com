@@ -126,7 +126,7 @@ if (user && project && idtoken) {
                     }
                 };
                 if (result['graph'] === "TRUE") {
-                    $("#contents_" + result['project_button']).append('<canvas id="Chart_'  + result['project_button'] + '" style="width:100%;max-width:1000px;min-height:200px;"></canvas>');
+                    $("#contents_" + result['project_button']).append('<div class="chart-container" style="height:300px; width:100%;"><canvas id="Chart_'  + result['project_button'] + '"></canvas></div>'); // width:100%;max-width:1000px;min-height:300px;
                     
                     var xValues = result['graph_data'][result['graph_data']['x-axis']];
                     
@@ -158,6 +158,8 @@ if (user && project && idtoken) {
                         datasets: chart_data
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
                         legend: {display: true},
                         title: {
                             display: true,
