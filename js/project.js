@@ -124,6 +124,70 @@ if (user && project && idtoken) {
                             requestProjectdropdown(project,result['project_button'], document.getElementById(result['project_button'] + "_dropdown").value)
                         }
                     }
+                };
+                if (result['graph'] === "TRUE") {
+                    $("#contents_" + result['project_button']).append('<canvas id="Chart_'  + result['project_button'] + '" style="width:100%;max-width:1000px"></canvas>');
+                    
+                    var xValues = result['graph_data'][result['graph_data']['x-axis']];
+                    
+                    var chart_data = [];
+                    
+                    for (let y of result['graph_data']['y-axis']) {
+                        chart_data.push({
+                            data: result['graph_data'][y],
+                            borderColor: "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0"),
+                            fill: false,
+                            label: y,
+                            })
+                    }
+
+                    var label_data = [];
+
+                    for (var i = 0; i < result['graph_data'][result['graph_data']['y-axis'][0]].length; i++) {
+                        var temp = "";
+                        for (let y of result['graph_data']['y-axis']) {
+                            temp = temp + y + ': ' + result['graph_data'][y][i] + ' ';
+                        }
+                        label_data.push(temp)
+                    }
+
+                    new Chart("Chart_" + result['project_button'], {
+                    type: "line",
+                    data: {
+                        labels: xValues, //result['graph_data'][result['graph_data']['labels']],
+                        datasets: chart_data
+                    },
+                    options: {
+                        legend: {display: true},
+                        title: {
+                            display: true,
+                            text: result['graph_data']['title']
+                          },
+                          tooltips: {
+                            enabled: true,
+                            mode: 'single',
+                            callbacks: {
+                                label: function (tooltipItems) {
+                                    return label_data[tooltipItems.index]+ result['graph_data']['labels'] + ': ' + result['graph_data'][result['graph_data']['labels']][tooltipItems.index];
+                                    }
+                                }
+                            },
+                          scales: {
+                            yAxes: [{
+                              scaleLabel: {
+                                display: true,
+                                labelString: result['graph_data']['y-label']
+                              }
+                            }],
+                            xAxes: [{
+                                scaleLabel: {
+                                  display: true,
+                                  labelString: result['graph_data']['x-label']
+                                }
+                              }]
+                          }
+                    }
+                    });
                 }
                 // alert(result['project_name'] + result['button_name'] + result['html'])
             }
