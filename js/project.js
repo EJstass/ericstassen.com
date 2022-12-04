@@ -105,6 +105,16 @@ if (user && project && idtoken) {
             function completeprojectdropdownRequest(result) {
                 $('#' + result['project_button'] + "_dropdowncontents").html(result['html']); //result['project_button']
                 // alert(result['project_name'] + result['button_name'] + result['html'])
+                if ("table_data" in result) {
+                    $("#table_"+ result['project_button']).DataTable({
+                        // "destroy": true, // In order to reinitialize the datatable
+                        // "pagination": true, // For Pagination
+                        // "sorting": true, // For sorting
+                        "aaData": result['table_data'],
+                        "columns": result['table_columns'],
+                        "scrollX": true
+                    });
+                }
             }
 
             function completeprojectRequest(result) {

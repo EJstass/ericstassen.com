@@ -306,3 +306,6 @@ table {
     text-align: center;
     width: 100%;
   }
+#table_Predictions_paginate a {
+    font:  bold 12px/30px Georgia, sans-serif;
+}
