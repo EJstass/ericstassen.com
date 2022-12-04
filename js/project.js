@@ -185,6 +185,10 @@ if (user && project && idtoken) {
                                 scaleLabel: {
                                   display: true,
                                   labelString: result['graph_data']['x-label']
+                                },
+                                ticks: {
+                                    autoSkip: true,
+                                    maxTicksLimit: 10
                                 }
                               }]
                           }
