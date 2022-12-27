@@ -168,7 +168,7 @@ else {
                 // theDiv.appendChild(content);
                 document.getElementById('signinForm').style.display = 'none';
                 document.getElementById('signout').style.display = 'block';
-                $(".subtitle").append(" as: " + username);
+                $(".subtitle").html("You're currently signed in as: " + username);
                 // $(".subtitle").append("Hi " + username + "! You successfully signed in!");
                 // var cognitoUser = UserPool.getCurrentUser();
                 // theDiv.appendChild(" " + cognitoUser);

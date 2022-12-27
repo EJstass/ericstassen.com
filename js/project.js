@@ -6,7 +6,7 @@ ericstassen.map = ericstassen.map || {};
 var user = localStorage.getItem('user') || null;
 var project = localStorage.getItem("project")
 
-document.getElementById('default').style.display = 'block';
+// document.getElementById('default').style.display = 'block';
 document.getElementById('loading').style.display = 'none';
 
 if (user) {
@@ -16,7 +16,7 @@ if (user) {
     };
 
 if (user && project && idtoken) {
-    document.getElementById('default').style.display = 'none';
+    // document.getElementById('default').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
     var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
     if (project) {
@@ -57,6 +57,7 @@ if (user && project && idtoken) {
                     window.location.href = './signin.html';
                 };
             function requestProjects() {
+                
                 $.ajax({
                     method: 'POST',
                     url: _config.api.invokeUrlprojects + '/projects',
@@ -73,6 +74,7 @@ if (user && project && idtoken) {
         
             requestProjects()
             function requestProjectdropdown(project_name, project_button, dropdown_value) {
+                $('#' + project_button + "_dropdowncontents").html("Loading...");
                 $.ajax({
                     method: 'POST',
                     url: _config.api.invokeUrlprojects + '/projectdropdown?project_name=' + project_name + '&project_button=' + project_button + '&date=' + dropdown_value,
@@ -88,6 +90,10 @@ if (user && project && idtoken) {
             }
 
             function requestProject(project_name, project_button) {
+                // $('#contents_' + project_button).html("Loading...");
+                $("#" + project_button).append("<div id='contents_" + project_button + "' style='overflow-x:auto;'>"
+                + "<p>Loading...</p>"+
+                "</div>");
                 $.ajax({
                     method: 'POST',
                     url: _config.api.invokeUrlprojects + '/project?project_name=' + project_name + '&project_button=' + project_button,
@@ -239,6 +245,7 @@ if (user && project && idtoken) {
                     };
                     $("#project_links").append("<div class="+button_name+" id="+button_name+"></div>");
                     $("." + button_name).append(btn)
+                    // $("." + button_name).append("<div id='contents_" + button_name + "' style='overflow-x:auto;'></div>");
                   }
             }
         

@@ -5,8 +5,8 @@ ericstassen.map = ericstassen.map || {};
 
 var user = localStorage.getItem('user') || null;
 
-document.getElementById('default').style.display = 'none';
-document.getElementById('loading').style.display = 'none';
+// document.getElementById('default').style.display = 'none';
+// document.getElementById('loading').style.display = 'none';
 
 if (user) {
     var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
@@ -16,8 +16,8 @@ if (user) {
     };
 
 if (user && idtoken) {
-    document.getElementById('default').style.display = 'none';
-    document.getElementById('loading').style.display = 'block';
+    // document.getElementById('default').style.display = 'none';
+    // document.getElementById('loading').style.display = 'block';
     (function projectsScopeWrapper($) {
         var poolData = {
             UserPoolId: _config.cognito.userPoolId,
@@ -63,7 +63,7 @@ if (user && idtoken) {
                 contentType: 'application/json',
                 success: completeRequest,
                 error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                    document.getElementById('loading').style.display = 'none';
+                    // document.getElementById('loading').style.display = 'none';
                     var project_link = "<p>You have been signed out. Please sign in again</p>";
                     $("#project_links").append(project_link);
                     signOut()
@@ -91,6 +91,5 @@ if (user && idtoken) {
     
 }
 else {
-    document.getElementById('default').style.display = 'block';
-    document.getElementById('loading').style.display = 'none';
+    $("#loading").html("Sign in to see more...")
 }
