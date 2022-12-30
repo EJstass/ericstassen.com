@@ -309,3 +309,6 @@ table {
 #table_Predictions_paginate a {
     font:  bold 12px/30px Georgia, sans-serif;
 }
+#table_Accuracy_paginate a {
+    font:  bold 12px/30px Georgia, sans-serif;
+}

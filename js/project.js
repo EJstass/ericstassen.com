@@ -118,7 +118,8 @@ if (user && project && idtoken) {
                         // "sorting": true, // For sorting
                         "aaData": result['table_data'],
                         "columns": result['table_columns'],
-                        "scrollX": true
+                        "scrollX": true,
+                        columnDefs: [ { "defaultContent": "", "targets": "_all" } ]
                     });
                 }
             }
