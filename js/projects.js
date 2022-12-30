@@ -65,7 +65,7 @@ if (user && idtoken) {
                 error: function ajaxError(jqXHR, textStatus, errorThrown) {
                     // document.getElementById('loading').style.display = 'none';
                     var project_link = "<p>You have been signed out. Please sign in again</p>";
-                    $("#project_links").append(project_link);
+                    $("#loading").html(project_link);
                     signOut()
                 }
             });
