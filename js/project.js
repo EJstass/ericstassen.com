@@ -178,7 +178,7 @@ if (user && project && idtoken) {
                                 mode: 'single',
                                 callbacks: {
                                     label: function (tooltipItems) {
-                                        return label_data[tooltipItems.index]+ graph_data['labels'] + ': ' + result['graph_data'][result['graph_data']['labels']][tooltipItems.index];
+                                        return label_data[tooltipItems.index]+ graph_data['labels'] + ': ' + graph_data[graph_data['labels']][tooltipItems.index];
                                         }
                                     }
                                 },
@@ -196,7 +196,7 @@ if (user && project && idtoken) {
                                     },
                                     ticks: {
                                         autoSkip: true,
-                                        maxTicksLimit: 10
+                                        maxTicksLimit: 20
                                     }
                                 }]
                             }
