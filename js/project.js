@@ -134,6 +134,7 @@ if (user && project && idtoken) {
                 +result['html']+
                 "</div>");
                 if (result['graph'] === "TRUE") {
+                    var label_dict = {};
                     for (let graph_data of result['graph_data']) {
                         $("#contents_" + result['project_button']).append('<div class="chart-container" style="height:300px; width:100%;"><canvas id="Chart_'  + graph_data['name'] + '"></canvas></div>'); // width:100%;max-width:1000px;min-height:300px;
                         
@@ -151,7 +152,7 @@ if (user && project && idtoken) {
                         }
 
                         var label_data = [];
-
+                        
                         for (var i = 0; i < graph_data[graph_data['y-axis'][0]].length; i++) {
                             var temp = "";
                             for (let y of graph_data['y-axis']) {
@@ -160,6 +161,7 @@ if (user && project && idtoken) {
                             label_data.push(temp)
                         }
 
+                        label_dict[graph_data['name']] = label_data;
                         new Chart("Chart_" + graph_data['name'], {
                         type: "line",
                         data: {
@@ -179,7 +181,7 @@ if (user && project && idtoken) {
                                 mode: 'single',
                                 callbacks: {
                                     label: function (tooltipItems) {
-                                        return label_data[tooltipItems.index]+ graph_data['labels'] + ': ' + graph_data[graph_data['labels']][tooltipItems.index];
+                                        return label_dict[graph_data['name']][tooltipItems.index]+ graph_data['labels'] + ': ' + graph_data[graph_data['labels']][tooltipItems.index];
                                         }
                                     }
                                 },
