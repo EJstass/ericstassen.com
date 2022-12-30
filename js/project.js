@@ -159,7 +159,7 @@ if (user && project && idtoken) {
                             label_data.push(temp)
                         }
 
-                        new Chart("Chart_" + result['project_button'], {
+                        new Chart("Chart_" + graph_data['name'], {
                         type: "line",
                         data: {
                             labels: xValues, //result['graph_data'][result['graph_data']['labels']],
