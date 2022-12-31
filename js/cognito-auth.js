@@ -16,7 +16,7 @@ if (user) {
 if (user && idtoken) {
     document.getElementById('signinForm').style.display = 'none';
     document.getElementById('signout').style.display = 'block';
-    $(".subtitle").html("You're currently signed in as: " + username);
+    $(".subtitle").html("You're currently signed in as: " + user);
     var idtoken = localStorage.getItem('CognitoIdentityServiceProvider.ci44ue8rbkdohiqg4p5ktapn6.' + user + '.idToken') || null;
 }
 else {
