@@ -81,7 +81,7 @@ if (user && idtoken) {
         function completeRequest(result) {
             document.getElementById('loading').style.display = 'none';
             for (let i of Object.keys(result)) {
-                var project_link = '<br><form action="project.html"><button type="submit" class="submit" class="restricted_projects" id="' + i + '" value=' + i + '>' + i + '</button></form>';
+                var project_link = '<form action="project.html"><button type="submit" class="submit" class="restricted_projects" id="' + i + '" value=' + i + '>' + i + '</button></form>';
                 $("#project_links").append(project_link);
                 document.getElementById(i).onclick = reply_click;
             }
