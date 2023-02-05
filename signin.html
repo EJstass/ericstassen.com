@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <title>Eric Stassen</title>
+   <meta charset="UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="stylesheet" href="signin.css" />
+   <meta name="description" content="Eric Stassen's Personal Page">
+   <link rel="icon" href="img/e-s-high-resolution-color-logo.png">
+ </head>
+ <body>
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo">
+           <a href="index.html">
+               <img class="logo" src="img/eric-stassen-high-resolution-logo-color-on-transparent-background-name.png">
+           </a>
+       </div>
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links">
+          <!-- USING CHECKBOX HACK -->
+          <input type="checkbox" id="checkbox_toggle" />
+          <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+          <!-- NAVIGATION MENUS -->
+          <div class="menu">
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <!-- <li class="projects">
+              <input type="checkbox" id="checkbox_toggle_projects" />
+               <label for="checkbox_toggle_projects" class="checkbox_projects">Projects</label>
+              <ul class="dropdown">
+                <li><a href="ericstassen.html">EricStassen.com</a></li>
+              </ul>
+            </li> -->
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="signin.html">Sign In</a></li>
+          </div>
+        </ul>
+      </nav>
+
+   <section class="signin">
+    
+    <div class="non_photo">
+      <h1>
+        Sign In
+    </h1>
+      <div class="text">
+        <!-- action="/action_page.php" -->
+        <form id="signinForm">
+        <div class="form">
+          <div class="title">Welcome</div>
+          <!-- <div class="subtitle">Let's sign you in!</div> -->
+          <div class="subtitle" id="subtitle"></div>
+          <div class="input-container ic1">
+            <input id="username" class="input" type="text" placeholder=" " />
+            <div class="cut"></div>
+            <label for="username" class="placeholder">User Name</label>
+          </div>
+          <div class="input-container ic2">
+            <input id="password" class="input" type="password" placeholder=" " />
+            <div class="cut"></div>
+            <label for="password" class="placeholder">Password</label>
+          </div>
+          <button type="text" class="submit">Submit</button>
+        </div>
+        </form>
+        <form id="signout">
+          <div class="form">
+            <div class="title">Welcome</div>
+            <div class="subtitle" id="subtitle"></div>
+            <button type="text" class="submit">Sign Out</button>
+          </div>
+          </form>
+          <script src="js/vendor/jquery-3.1.0.js"></script>
+          <script src="js/vendor/bootstrap.min.js"></script>
+          <script src="js/vendor/aws-cognito-sdk.min.js"></script>
+          <script src="js/vendor/amazon-cognito-identity.min.js"></script>
+          <script src="js/config.js"></script>
+          <script src="js/cognito-auth.js"></script>
+  </div>
+  </div>
+  <div class="photo">
+
+    </div>
+    <div class="location">
+      <a target="_blank" rel="noopener noreferrer"  href="https://en.wikipedia.org/wiki/Sequoia_National_Park">Where am I?</a>
+    </div>
+    </section>
+ </body>
+</html>
