@@ -52,19 +52,177 @@
           <p>
             Hurling is an Irish team sport. More information about the sport can be found <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Hurling">here</a>.  
             I started playing Hurling at the University of Connecticut in 2016 have played for the Hartford GAA since 2020.
-            Analytics for sports has been gaining popularity, but I noticed there is little discussion about analytics techniques for Hurling.
-            The following project is my work to start the process of better understanding the game.
-            The goal is provide insight on how to improve both individual and team performance.
             Up Hartford! 
           </p>
-        <h2>
-          Abstract
-        </h2>
           <p>
-            This project is in the very early stages. More coming soon...
+            My website includes analytics for both Hurling and Gaelic Football because they are very similar sports.
+            Much of the research is consistent between the two, but the results can be entirely different.
+            If you're interested in the Gaelic Football Analytics, check it out <a href="gaelicfootballanalytics.html">here</a>.
           </p>
         <h2>
-            Links
+            Abstract
+        </h2>
+          <p>
+            Analytics for sports has been gaining popularity, but there has been little discussion about analytical techniques for Hurling.
+            The following project is a analytical approach to better understand the game and find strategies to improve team and player performance.
+            To analyze the game, we extract data from ball and player motions from video footage of games.
+            The data extraction process has two parts: one for the ball and one for the players.
+            To track the ball we developed a streamlined manual collection in Python that allows a person viewing the game footage to quickly record the location of the ball and information about the gameflow.
+            The players are identified and tracked using YOLOv7/StrongSORT, which are pretrained deep learning idenitification and tracking algorithms.
+            Once the data is collected, it is is read into Pandas in Python and used to derive anything interesting about the sport, including shot probabilities, expected points added, etc...
+            Many interesting insights are identified which can be applied to player improvement and team strategy.
+            The insights are only as powerful as the data, however, so the strategies are only relevant to the players and teams studied.
+            My team plays in a competitive league so the results we intend to share are merely examples of the applications and not an indication of strengths, weaknesses, or strategies of the team.
+            It should also be noted that this analysis is not intended to replace coaches or be the sole indicator of what to do.
+            This work is only intended to augment coaches' and players' decision-making, planning, and understandings.
+          </p>
+        <h2>
+            Introduction
+        </h2>
+          <h3>
+            Game Rules
+          </h3>
+          <p>
+            Hurling is played by two teams on a large rectangular field with a ball that very closely resembles a baseball.
+            On either end of the field are goals with uprights extending from the goalposts up to the sky.
+            In Ireland there are 15 players on the field per team, but in the United States we usually have 13 players per team on slightly smaller fields.
+            Each team defneds one goal and the positions from their own goal are as follows: 1 Keeper, 2 Fullbacks, 3 Halfbacks, 2 Midfielders, 3 HalfForwards, 2 Full Forwards.
+            The ball is moved back and forth across the field with the intention to score.
+            If the ball goes into the goal, the team is rewarded with 3 points.
+            If the ball goes above the goal and through the uprights, the team is rewarded with 1 point.
+            The playing rules are described by the <a target="_blank" rel="noopener noreferrer"  href="https://usgaa.org">USGAA</a> as follows: 
+            </p>
+            <p style="margin-left: 10%; margin-right: 10%;">The objective of the game is for players to use a wooden stick called a hurley to hit a small ball called a sliotar between the opponent's goalposts either over the crossbar for one point, or under the crossbar into a net guarded by a goalkeeper for one goal, which is equivalent to three points.
+              The sliotar can be caught in the hand and carried for not more than four steps, struck in the air, or struck on the ground with the hurley.
+              It can be kicked, or slapped with an open hand (the hand pass) for short-range passing.
+              A player who wants to carry the ball for more than four steps has to bounce or balance the sliotar on the end of the stick, and the ball can only be handled twice while in his possession.
+            </p>
+          <h3>
+              Analytical Applications
+          </h3>
+          <p>
+            Teams generally try to improve by working on individual player development and team strategies.
+            Individual players can improve by practicing all of the skills needed, including fitness, passing, shooting, tackling, etc.
+            Teams can improve by practicing strategies and situational planning.
+            Analytics can help players improve by idenitifying strengths/weaknesses and revealing how to improve.
+            For example, by developing a point conversion heat-map, we might identify that point shooting is a weakness for a certain player.
+            That player can improve by practicing point shots from specific areas in addition to analyzing technique.
+            Similarly, analytics can improve team performance by identifying strengths/weaknesses of collective players and determining the strategy that is most likely to result in a win.
+            For example, analytics could help determine what a player should do when they have the ball in a certain part of the field.
+            The team can determine whether there is a higher likelihood of scoring by hitting long passing or relying entirely on short hand passes.
+            There are many opportunities to gain insights at any level of the game.
+          </p>
+          <p>
+            Hurling is played in several leagues across the world.
+            The Hartford GAA is part of the <a target="_blank" rel="noopener noreferrer"  href="https://usgaa.org/">USGAA</a> and plays in the Northeast division at the Junior C level.
+            All of the following work will reflect the rules and game styles of the Hartford GAA, but the same analyzation techniques could be applied to other teams in different situations.
+          </p>
+          <h3>
+            Data Collection
+          </h3>
+            <p>
+              Sports Analysis is only as powerful as the data available.
+              In a sport like Hurling, there is a significant amount of data to collect.
+              Traditional data collection involves manually recording every action.
+              Unfortunately, Hurling could have 30 players on the field plus a fast moving ball, which makes manual data collection an arduous task.
+              Additionally, there are countless data features we could collect.
+              Therefore, we must narrow down the features collected and attempt to optimize the collection to be as fast as possible.
+              We decided the most important features at each time interval are the 2D location of the ball, the 2D location of each player, and the action.
+              Future enhancements could include countless other features, like player posture or adding the 3rd dimension.
+            </p>
+        <h2>
+            Related Works
+        </h2>
+        <h3>
+          Data Collection
+        </h3>
+          <p>The features selected allow us to streamline the data collection process.
+            One aerial camera can record 2D ball/player locations in addition to the actions on the field.
+            Once the game is completed, we use Python to extract each data point.
+            The idea is to allow Python to extract the data so we don't have to manually record everything.
+          </p>
+          <p>
+            Using Python to extract data is a Computer Vision use-case that builds off of prior work.
+            Digital videos are series of images, which are each made up of pixels.
+            Python must scan every pixel in every image to identify objects and then track objects from one image to another.
+            This is no easy task.
+            To accomplish this, we use a combination of opencv-python and YOLOv7/StrongSORT.
+          </p>
+          <p>The <a target="_blank" rel="noopener noreferrer"  href="https://opencv.org/">OpenCv</a> Python library allows users to interact with videos and images.
+            It provides built-in functionality to quickly read/edit/create images and videos.
+            Examples of the functionality include: showing only certain color pixels, finding object contours, changing the perspective of an image, etc.
+            This library is the basis for most computer vision tasks.
+          </p>
+          <p><a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/2207.02696">YOLOv7</a>  is a deep learning computer vision model.
+            The <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/1506.02640">YOLO</a> (You Only Look Once) models are a series of incrementally improved models that were trained to identify objects in the <a target="_blank" rel="noopener noreferrer"  href="https://cocodataset.org/#home">COCO</a> dataset.
+            The COCO (Common Objects in Context) dataset contains pre-segmented images of nearly 100 common objects, for example: people, umbrellas, ties, sandwich, sports balls, kites, scissors, etc.
+            The YOLO models use Convolutional Neural Network Architectures to learn to identify the objects in COCO's images.
+            YOLOv7 was released in July 2022 and provided the capability to identify objects in images faster and more accurately than any previous models.
+            By using YOLO, we can detect objects (players, balls, etc.) on the field in real-time.
+            This capability provides a huge boost to our data collection efficiency, but also has its limitations.
+            Most significantly, the model can only identify objects that it was trained to see.
+            It should be able to identify players on the fields, because it was trained to see people.
+            In contrast, the Sliotar may be inconsistent because it was not one of the objects that the model was trained on and it is a relatively small object that travels very quickly.
+            Small, faster objects are notoriously difficult to detect.
+            However, new YOLO models are constantly being created, so perhaps a future version will be more capabile.
+            A future enhancement could also include training our own model to identify Sliotars.
+          </p>
+          <p><a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/2202.13514">StrongSORT</a> is a Multi-Object Tracking method that was released in February 2022.
+            It runs in conjunction with YOLO to identify and track unique objects throughout a video.
+            An implementation of StrongSORT can be found <a target="_blank" rel="noopener noreferrer"  href="https://github.com/bharath5673/StrongSORT-YOLO">here</a>.
+            The provided code can be used with only a few modifications to track players on the field.
+            However, the capabilities of the Multi-Object Tracking algorithm are dependent on the quality of the video.
+            If objects are too small or too blurry or moving too quickly, the algorithm may not be able to identify/track properly.
+          </p>
+          <h3>
+            Analysis Techniques
+          </h3>
+          <p>Sports Analytics is still relatively new, but is now far from an uncommon practice.
+            It is well-known that analytics is used extensively in Baseball, Basketball, American Football, Hockey, Soccer, and Golf.
+            Baseball is possibly the most famous use-case as it has been popularized in movies like Moneyball.
+            Baseball fans everywhere know the basic baseball statistics like Batting Average (BA) and Expected Run Average (ERA).
+            Basketball uses statistics like field goal percentages.
+            American Football tracks win probability based on score, field positions, possession, etc.
+            Soccer tracks where players are on the field to measure spacing.
+            Hockey determines the Corsi Statistic, which is a shot differential between teams.
+            Golf uses ShotLink to track the ball.
+            There are so many different techniques from many different sports that range from simple to extremely complex.
+            We can build off of what other sports have done to develop an analytical system unique to Hurling.
+          </p>
+        <h2>
+            Experiments
+        </h2>
+        <h3>
+          Data Collection
+        </h3>
+        <p>
+          Coming soon...
+        </p>
+        <h3>
+          Analysis Techniques
+        </h3>
+          <p>
+           Coming soon...
+          </p>
+        <h2>
+            Conclusion
+        </h2>
+          <p>
+           Coming soon...
+          </p>
+        <h2>
+            Citations
+        </h2>
+          <p>
+            Data: <a target="_blank" rel="noopener noreferrer"  href="https://cocodataset.org/#home">COCO</a> 
+            <br> Github: <a target="_blank" rel="noopener noreferrer"  href="https://github.com/bharath5673/StrongSORT-YOLO">StrongSORT-YOLO</a>
+            <br> Publication: <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/2202.13514">StrongSORT</a>
+            <br> Publication: <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/1506.02640">YOLO</a>
+            <br> Publication: <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/2207.02696">YOLOv7</a>
+            <br> Python Library: <a target="_blank" rel="noopener noreferrer"  href="https://opencv.org/">OpenCv</a> 
+          </p>
+        <h2>
+            My Links
         </h2>
           <p>
             GitHub: <a target="_blank" rel="noopener noreferrer" href="https://github.com/EJstass/hurling-analytics">Hurling</a>    

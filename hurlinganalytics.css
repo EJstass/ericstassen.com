@@ -246,6 +246,14 @@
     font: Georgia, sans-serif;
     /* text-shadow: 0px 0px 20px black; */
 }
+.first_section h3 {
+    color:black;
+    margin-left: 5%;
+    margin-right: 5%;
+    /* padding: 10px; */
+    font: Georgia, sans-serif;
+    /* text-shadow: 0px 0px 20px black; */
+}
 .first_section p {
     color:black;
     margin-left: 5%;
