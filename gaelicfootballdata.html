@@ -56,9 +56,9 @@
             I always wanted to figure out a way to play more efficiently, so I decided to investigate from a data perspective.
           <!-- </p>
           <p> -->
-            This is part one of a two-part analysis.
-            Part one covers data collection and basic calculations.
-            Part two covers analytics and how we approach improving our team's efficiency.
+            <!-- This is part one of a two-part analysis. -->
+            <!-- Part one covers data collection and basic calculations.
+            Part two covers analytics and how we approach improving our team's efficiency. -->
             <!-- I also play Hurling, check it out <a href="hurlingdata.html">here</a>. -->
           </p>
         <h2>
@@ -235,8 +235,8 @@
           I mentioned above that data collection is a Computer Vision problem, but there are other options that should be mentioned first.
           Primarily, we want to record who does what action where and when.
           Therefore, we can watch the matches and take manual notes to record what each player is doing.
-          There are apps available on iOS and Android that let you quickly record games actions, which we can use either during the match or by watching the video at a later time.
-          We do actively this technique but it is spearheaded by other members of the team, so I won't go too in depth.
+          There are apps available on iOS and Android that let you manually record game actions, which we can use either during the match or by watching the video at a later time.
+          We do actively use this technique but it is spearheaded by other members of the team, so I won't go too in depth.
           Their work is extremely valuable because it can provide analytical opportunities on its own and can be joined to the data returned from the Computer Vision algorithms shown below.
         </p>
         <p>
@@ -257,19 +257,55 @@
           Basic Analytical Techniques
         </h3>
           <p>
-           The resulting datset is useless unless it can be translated to solve real problems.
+           The resulting dataset is useless unless it can be translated to solve real problems.
+           The first problem I wanted to solve was determining player location using longitude latitude.
+           Unfortunately, the YOLO/STRONGSORT algorithms weren't perfect, so step 1 was to identify players and clean the data.
+           The next step was to identify the longtiude and latitude of certain locations on the field and find the corresponding pixel coordinates in the images.
+           Finally, the last step included calculating the longitude latitude of all the objects on the screen throughout the video.
+           The resulting dataset covered every player's position on earth for every image in the video.
+           That opens a world of possibilities...
           </p>
+          <p>
+            Matches are won and lost by players' actions on the field.
+            Players make decisions all the time, whether they have the ball or not.
+            The most common decision is where to be on the field at a certain point in time.
+            Player positioning and movements are important because they affect all other decisions: passing, scoring, defense, etc.
+            Therefore, my next idea was to calculate distance.
+            Specifically, the distance each player is from the ball and the distance the player has moved.
+            I also considered the distance each player was from the other players, but that would create an exponential number of calculations.
+            Fortunately, the Haversine formula can be applied to calculate the distance between two longitude latitude locations.
+            Once distance is determined, speed can be determined by simply relating distance to the frame rate.
+            As a result, I was able to find each player's speed in Miles per Hour.
+           </p>
+           <p>
+            All these calculations are great, but they're useless to my teammates in table format.
+            My team already enjoys watching video of us playing, so I decided the easiest option would be to simply plot all these data back to the video.
+            The Python OpenCV library allows you to print text anywhere on an image based on the pixel location, which we already have from the YOLOv7/STRONGSORT algorithm.
+            The result is below.
+           </p>
+           <div id="youtube_iframe">
+            <iframe src="https://www.youtube.com/embed/1SeBJ57BcC0?si=cXmx7bHu5yGj_uXt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+  
+            </iframe>
+            </div>
         <h2>
             Conclusion & Next Steps
         </h2>
           <p>
-           Coming soon...
+           This data collection process opens endless opportunities for analysis.
+           For example, the few calculations that were performed allow for even more data fields to be derived.
+           In addition, the video can zoom out to cover the entire field which would allow us to track other aspects of the match, like score.
+           Most importantly, whatever data we decide to collect, we can use it to improve our strategy.
+           Models can be built to learn the most effective strategies in a match.
+           We can also learn what to focus on during practice.
+           Coaches can spend a lifetime learning the game and figuring out which strategies work best.
+           This data collection method would empower a model to do it in a fraction of the time.
           </p>
         <h2>
             Citations
         </h2>
           <p>
-            Data: <a target="_blank" rel="noopener noreferrer"  href="https://cocodataset.org/#home">COCO</a> 
+            COCO Data: <a target="_blank" rel="noopener noreferrer"  href="https://cocodataset.org/#home">COCO</a> 
             <br> Github: <a target="_blank" rel="noopener noreferrer"  href="https://github.com/bharath5673/StrongSORT-YOLO">StrongSORT-YOLO</a>
             <br> Publication: <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/2202.13514">StrongSORT</a>
             <br> Publication: <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/1506.02640">YOLO</a>
