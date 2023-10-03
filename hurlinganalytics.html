@@ -43,192 +43,216 @@
     
         <div class="non_photo">
           <h1>
-            Analytics - Hurling
+            Hurling - Analytics
         </h1>
           <div class="text">
           <h2>
             Foreword
         </h2>
           <p>
-            Hurling is an Irish team sport. More information about the sport can be found <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Hurling">here</a>.  
-            I started playing Hurling at the University of Connecticut in 2016 have played for the Hartford GAA since 2020.
-            Up Hartford! 
+            Hurling is an Irish team sport that involves many unique skills and strategies. 
+            If you're unfamiliar with the sport, more information can be found <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Hurling">here</a>.  
+            I started playing Hurling at the University of Connecticut in 2016 have played for the <a target="_blank" rel="noopener noreferrer"  href="https://www.hartfordgaa.com/">Hartford GAA</a>  since 2020.
+            I always wanted to figure out a way to play more efficiently, so I decided to investigate from a data perspective.
           </p>
           <p>
-            My website includes analytics for both Hurling and Gaelic Football because I play both.
-            Much of the research is consistent between the two, but the results can be entirely different.
-            If you're interested in the Gaelic Football Analytics, check it out <a href="gaelicfootballanalytics.html">here</a>.
+            This is part two of a two-part analysis.
+            Part <a href="hurlingdata.html">one</a> covers data collection and basic calculations.
+            Part two covers analytics and how we approach improving our team's efficiency.
           </p>
         <h2>
             Abstract
         </h2>
-          <p>
-            Analytics for sports has been gaining popularity, but there has been little discussion about analytical techniques for Hurling.
-            The following project is a analytical approach to better understand the game and find strategies to improve team and player performance.
-            To analyze the game, we extract data from ball and player motions from video footage of games.
-            The data extraction process has two parts: one for the ball and one for the players.
-            To track the ball we developed a streamlined manual collection in Python that allows a person viewing the game footage to quickly record the location of the ball and information about the gameflow.
-            The players are identified and tracked using YOLOv7/StrongSORT, which are pretrained deep learning idenitification and tracking algorithms.
-            Once the data is collected, it is is read into Pandas in Python and used to derive anything interesting about the sport, including shot probabilities, expected points added, etc...
-            Many interesting insights are identified which can be applied to player improvement and team strategy.
-            The insights are only as powerful as the data, however, so the strategies are only relevant to the players and teams studied.
-            My team plays in a competitive league so the results we intend to share are merely examples of the applications and not an indication of strengths, weaknesses, or strategies of the team.
-            It should also be noted that this analysis is not intended to replace coaches or be the sole indicator of what to do.
-            This work is only intended to augment coaches' and players' decision-making, planning, and understandings.
-          </p>
+        <p>
+          Analytics for sports has been gaining popularity, but I have seen little use in Hurling.
+          The following project is an approach to use analytics to help players better understand the game.
+          For this post, I am purposefully not sharing good models, just explaining why and how to implement them to improve our team.
+          The dataset from part one of this project is used as the input data and is supplemented with information about passes from the same video.
+          Several additional data fields are derived with Pandas and a logistic regression model is built to predict whether future passes will be completed.
+          Then the model is interpreted and applied to our matches to teach our players the best strategies.
+          My team plays in a competitive league so the modeling process shared here will not be complete.
+          The code and data shared is merely representative and is not an indication of strengths, weaknesses, or strategies of the team.
+          It should also be noted that this analysis is not intended to replace coaches or be the sole indicator of what to do.
+          This work is only intended to augment coaches' and players' decision-making, planning, and understandings.
+        </p>
         <h2>
             Introduction
         </h2>
           <h3>
-            Game Rules
+            Background
           </h3>
           <p>
-            Hurling is played by two teams on a large rectangular field with a ball that very closely resembles a baseball.
-            On either end of the field are goals with uprights extending from the goalposts up to the sky.
-            In Ireland there are 15 players on the field per team, but in the United States we usually have 13 players per team on slightly smaller fields.
-            Each team defneds one goal and the positions from their own goal are as follows: 1 Keeper, 2 Fullbacks, 3 Halfbacks, 2 Midfielders, 3 HalfForwards, 2 Full Forwards.
-            The ball is moved back and forth across the field with the intention to score.
-            If the ball goes into the goal, the team is rewarded with 3 points.
-            If the ball goes above the goal and through the uprights, the team is rewarded with 1 point.
-            The playing rules are described by the <a target="_blank" rel="noopener noreferrer"  href="https://usgaa.org">USGAA</a> as follows: 
-            </p>
-            <p style="margin-left: 10%; margin-right: 10%;">The objective of the game is for players to use a wooden stick called a hurley to hit a small ball called a sliotar between the opponent's goalposts either over the crossbar for one point, or under the crossbar into a net guarded by a goalkeeper for one goal, which is equivalent to three points.
-              The sliotar can be caught in the hand and carried for not more than four steps, struck in the air, or struck on the ground with the hurley.
-              It can be kicked, or slapped with an open hand (the hand pass) for short-range passing.
-              A player who wants to carry the ball for more than four steps has to bounce or balance the sliotar on the end of the stick, and the ball can only be handled twice while in his possession.
-            </p>
-          <h3>
-              Analytical Applications
-          </h3>
-          <p>
-            Teams generally try to improve by working on individual player development and team strategies.
-            Individual players can improve by practicing all of the skills needed, including fitness, passing, shooting, tackling, etc.
-            Teams can improve by practicing strategies and situational planning.
-            Analytics can help players improve by idenitifying strengths/weaknesses and revealing how to improve.
-            For example, by developing a point conversion heat-map, we might identify that point shooting is a weakness for a certain player.
-            That player can improve by practicing point shots from specific areas in addition to analyzing technique.
-            Similarly, analytics can improve team performance by identifying strengths/weaknesses of collective players and determining the strategy that is most likely to result in a win.
-            For example, analytics could help determine what a player should do when they have the ball in a certain part of the field.
-            The team can determine whether there is a higher likelihood of scoring by hitting long passing or relying entirely on short hand passes.
-            There are many opportunities to gain insights at any level of the game.
-          </p>
-          <p>
-            Hurling is played in several leagues across the world.
-            The Hartford GAA is part of the <a target="_blank" rel="noopener noreferrer"  href="https://usgaa.org/">USGAA</a> and plays in the Northeast division at the Junior C level.
-            All of the following work will reflect the rules and game styles of the Hartford GAA, but the same analyzation techniques could be applied to other teams in different situations.
+            Please see part <a href="hurlingdata.html">one</a> for background.
+            This work will pick up where the previous work left off, which was with a dataset of player positions during a match.
           </p>
           <h3>
-            Data Collection
+            Intentions
           </h3>
-            <p>
-              Sports Analysis is only as powerful as the data available.
-              In a sport like Hurling, there is a significant amount of data to collect.
-              Traditional data collection involves manually recording every action.
-              Unfortunately, Hurling could have 30 players on the field plus a fast moving ball, which makes manual data collection an arduous task.
-              Additionally, there are countless data features we could collect.
-              Therefore, we must narrow down the features collected and attempt to optimize the collection to be as fast as possible.
-              We decided the most important features at each time interval are the 2D location of the ball, the 2D location of each player, and the action.
-              Future enhancements could include countless other features, like player posture or adding the 3rd dimension.
-            </p>
-        <h2>
-            Related Works
-        </h2>
-        <h3>
-          Data Collection
-        </h3>
-          <p>The features selected allow us to streamline the data collection process.
-            One aerial camera can record 2D ball/player locations in addition to the actions on the field.
-            Once the game is completed, we use Python to extract each data point.
-            The idea is to allow Python to extract the data so we don't have to manually record everything.
-          </p>
           <p>
-            Using Python to extract data is a Computer Vision use-case that builds off of prior work.
-            Digital videos are series of images, which are each made up of pixels.
-            Python must scan every pixel in every image to identify objects and then track objects from one image to another.
-            This is no easy task.
-            To accomplish this, we use a combination of opencv-python and YOLOv7/StrongSORT.
-          </p>
-          <p>The <a target="_blank" rel="noopener noreferrer"  href="https://opencv.org/">OpenCv</a> Python library allows users to interact with videos and images.
-            It provides built-in functionality to quickly read/edit/create images and videos.
-            Examples of the functionality include: showing only certain color pixels, finding object contours, changing the perspective of an image, etc.
-            This library is the basis for most computer vision tasks.
-          </p>
-          <p><a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/2207.02696">YOLOv7</a>  is a deep learning computer vision model.
-            The <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/1506.02640">YOLO</a> (You Only Look Once) models are a series of incrementally improved models that were trained to identify objects in the <a target="_blank" rel="noopener noreferrer"  href="https://cocodataset.org/#home">COCO</a> dataset.
-            The COCO (Common Objects in Context) dataset contains pre-segmented images of nearly 100 common objects, for example: people, umbrellas, ties, sandwich, sports balls, kites, scissors, etc.
-            The YOLO models use Convolutional Neural Network Architectures to learn to identify the objects in COCO's images.
-            YOLOv7 was released in July 2022 and provided the capability to identify objects in images faster and more accurately than any previous models.
-            By using YOLO, we can detect objects (players, balls, etc.) on the field in real-time.
-            This capability provides a huge boost to our data collection efficiency, but also has its limitations.
-            Most significantly, the model can only identify objects that it was trained to see.
-            It should be able to identify players on the fields, because it was trained to see people.
-            In contrast, the Sliotar may be inconsistent because it was not one of the objects that the model was trained on and it is a relatively small object that travels very quickly.
-            Small, faster objects are notoriously difficult to detect.
-            However, new YOLO models are constantly being created, so perhaps a future version will be more capabile.
-            A future enhancement could also include training our own model to identify Sliotars.
-          </p>
-          <p><a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/2202.13514">StrongSORT</a> is a Multi-Object Tracking method that was released in February 2022.
-            It runs in conjunction with YOLO to identify and track unique objects throughout a video.
-            An implementation of StrongSORT can be found <a target="_blank" rel="noopener noreferrer"  href="https://github.com/bharath5673/StrongSORT-YOLO">here</a>.
-            The provided code can be used with only a few modifications to track players on the field.
-            However, the capabilities of the Multi-Object Tracking algorithm are dependent on the quality of the video.
-            If objects are too small or too blurry or moving too quickly, the algorithm may not be able to identify/track properly.
+            Once data is available, there are countless uses.
+            However, there is a huge gap between having data and making it useful.
+            First, you must have a problem to solve.
+            Then, you need to solve it.
+            Lastly, you need to be able to transfer the solution from a computer to players' minds while they're on the field.
+            The work below provides a framework to complete those steps.
+            We are a competitive team though, so I am purposefully not sharing a real solution.
           </p>
           <h3>
-            Analysis Techniques
+            Purpose
           </h3>
-          <p>Sports Analytics is still relatively new, but is now far from an uncommon practice.
-            It is well-known that analytics is used extensively in Baseball, Basketball, American Football, Hockey, Soccer, and Golf.
-            Baseball is possibly the most famous use-case as it has been popularized in movies like Moneyball.
-            Baseball fans everywhere know the basic baseball statistics like Batting Average (BA) and Expected Run Average (ERA).
-            Basketball uses statistics like field goal percentages.
-            American Football tracks win probability based on score, field positions, possession, etc.
-            Soccer tracks where players are on the field to measure spacing.
-            Hockey determines the Corsi Statistic, which is a shot differential between teams.
-            Golf uses ShotLink to track the ball.
-            There are so many different techniques from many different sports that range from simple to extremely complex.
-            We can build off of what other sports have done to develop an analytical system unique to Hurling.
-          </p>
           <p>
-            The primary analytical technique that is commonly applied to Hurling is <a target="_blank" rel="noopener noreferrer"  href="https://www.hawkeyeinnovations.com/our-technology">Hawk-Eye</a>.
-            Hawk-Eye is a ball tracking software that has been applied to many sports and is primarily used as an aid in officiating.
-            In Hurling, points are determined by umpires but there are many shots that are difficult to judge in real-time.
-            In those cases Hawk-Eye can display the exact location of the ball as it passes the uprights, which helps officials make the correct calls.
-            The technology to create Hawk-Eye involves several cameras and proprietary software, so it is difficult to build off their work.
-            Hawk-Eye's application to officiating is also somewhat outside of the scope of what we are attempting to research.
+            The example problem I am trying to solve is predicting whether a pass will be completed or not.
+            This is useful to us because we want to avoid turnovers during games.
+            Every turnover is a lost opportunity for our team to score and a new opportunity for the opposing team to score.
+            Passes are something that we have control over, so we can make conscious change if necessary.
           </p>
         <h2>
-            Experiments
+            Implementation
         </h2>
         <h3>
-          Data Collection
+          Raw Data
         </h3>
         <p>
-          Coming soon...
+          To predict pass completions, the dataset from part one needs pass information.
+          Fortunately, the data is easy to manually collect.
+          I simply watched the video and recorded the actions, players, and frame numbers.
+          However, we need a definition of a "completed pass".
+          I decided to define it as the ball reaching the intended target before being touched by the opposing team.
+          The intended recipient does not need to gain possession for the pass to be considered completed.
+          The purpose of this study is to make good passing decisions, so it is a good decision to pass the ball if it reaches the person you want it to reach.
+          If the player receiving the pass doesn't collect the ball, that's a different skill to evaluate.
+          To see the passes and my evaluation, check out the video below and the <a target="_blank" rel="noopener noreferrer" href="https://github.com/EJstass/hurling-analytics/blob/main/yolov7_sort_mot_plot_passprob.ipynb">code</a>.
+        </p>
+        <div id="youtube_iframe">
+          <iframe src="https://www.youtube.com/embed/XkAYrqeZLiw?si=TT7-Mt5GlMuYN-2-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+        <h3>
+          Data Evaluation
+        </h3>
+
+        <p>
+          The next step is to evaluate the data.
+          The purpose of this work is a classification model, so let's check out the distribution of the target variable (each of the pass results in the video).
+          True means the pass was completed.
+          False means the pass was intercepted.
+        </p>
+        <table>  <thead>  <tr>      <th></th>     <th>Outcome</th>    </tr>  </thead>  <tbody>    <tr>      <th>True</th>      <td>10</td>    </tr>    <tr>      <th>False</th>      <td>3</td>    </tr>  </tbody></table>
+        <p>
+          Unfortunately, the sample size is miniscule and the distribution is severely unbalanced.
+          Any models built will be poor, but let's continue anyways for the purpose of showing what's possible with more data.
         </p>
         <h3>
-          Analysis Techniques
+          Predictors
         </h3>
-          <p>
-           Coming soon...
-          </p>
+        <p>
+          To predict pass completion, we need variables that can be judged by a player on the field in real-time.
+          The general variables we tend to look for naturally are: how far away the receiving player is, how many defenders are between the passer and the receiver (which I call the number of pass interceptors), where the closest defender is relative to the receiver (distance and angle relative to the ball), the speed of the receiver, and the speed of the defender.
+          Truthfully, that's a lot of variables to mentally process during the one second we take to decide whether to pass, but an analysis of these variables could tell us what to focus on.
+        </p>
+        <p>
+          Fortunately, all of these variables are somewhat possible to judge in real-time and they're all easy to derive from the dataset we have available.
+          Distance and speed were already derived in part one; they just need to be extrapolated to each player relative to each other.
+          The new calculations are angle and number of pass interceptors.
+        </p>
+        <p>
+          Angle can be calculated using the "math" library in Python which uses the coordinates of 3 points: ball, receiver, defender.
+        </p>
+        <p>
+          In contrast, the number of pass interceptors is slightly more complicated.
+          I decided to approach it as any defender who was moving fast enough to cross the projected path of the ball.
+          The projected path of the ball is the line between the ball's current coordinates and the coordinates of the receiver.
+          A defender can intercept the pass if they move into the path of the ball.
+          The distance the defender has to travel is an orthogonal line to the path of the ball, which is calculable.
+          I then assumed the ball moves at a max speed of around 40MPH and the average defender can sprint at about half that speed.
+          Therefore, to determine the number of pass interceptors, I counted the number of defenders whose orthogonal line was at most half of the remaining distance of the pass.
+        </p>
+        <p>
+          An example record of the variables and their values is below:
+        </p>
+        <table>  <thead>    <tr>      <th></th>      <th>Example Pass</th>    </tr>  </thead>  <tbody>    <tr>      <th>frame</th>      <td>132</td>    </tr>    <tr>      <th>passer</th>      <td>Eric</td>    </tr>    <tr>      <th>receiver</th>      <td>player5</td>    </tr>    <tr>      <th>Outcome</th>      <td>True</td>    </tr>    <tr>      <th>Name</th>      <td>player5</td>    </tr>    <tr>      <th>pass_distance</th>      <td>9.692406</td>    </tr>    <tr>      <th>nbr_of_interceptors</th>      <td>0.0</td>    </tr>    <tr>      <th>nearest_defender_dist</th>      <td>15.176655</td>    </tr>    <tr>      <th>nearest_defender_angle</th>      <td>42.959883</td>    </tr>    <tr>      <th>nearest_defender_speed</th>      <td>9.242666</td>    </tr>    <tr>      <th>nearest_defender_speed_rel</th>      <td>4.370869</td>    </tr>    <tr>      <th>receiver_speed</th>      <td>2.114606</td>    </tr>  </tbody></table>
+        <p>
+          At this point, it would be a good idea to evaluate the quality of these predictors relative to the target field.
+          However, with the small sample size, let's jump straight into modeling.
+          As discussed previously, a good model is not the purpose of this post.
+        </p>
+        <h3>
+          Modeling #1
+        </h3>
+        
+        <p>
+          Model building is an iterative process, so this is my first very basic attempt.
+          Before building the model, the dataset of passes is split into training and testing.
+          Then, I used the LogisticRegression class from sklearn to model the training data.
+          To evaluate the quality of the model, let's check its precision-recall for the test data.
+          Unfortunately, there are only two records in the test dataset and the model predicts both incorrectly.
+        </p>
+        <table>  <thead>    <tr>      <th></th>      <th>False</th>      <th>True</th>      <th>accuracy</th>      <th>macro avg</th>      <th>weighted avg</th>    </tr>  </thead>  <tbody>    <tr>      <th>precision</th>      <td>0.0</td>      <td>0.0</td>      <td>0.0</td>      <td>0.0</td>      <td>0.0</td>    </tr>    <tr>      <th>recall</th>      <td>0.0</td>      <td>0.0</td>      <td>0.0</td>      <td>0.0</td>      <td>0.0</td>    </tr>    <tr>      <th>f1-score</th>      <td>0.0</td>      <td>0.0</td>      <td>0.0</td>      <td>0.0</td>      <td>0.0</td>    </tr>    <tr>      <th>support</th>      <td>1.0</td>      <td>1.0</td>      <td>0.0</td>      <td>2.0</td>      <td>2.0</td>    </tr>  </tbody></table>
+        <h3>
+          Modeling #2
+        </h3>
+        <p>
+          The first model had severe limitations, so I decided to take a slightly different approach.
+          My primary goal was to increase the number of records for the sake of example.
+          To gain more records, I recorded success/failure for every frame of each pass (from the moment the passer hits the ball until the receiver or defenders touches it).
+          That way each pass produced dozens of records and the resulting dataset contained hundreds.
+          A quick look at the target field distribution:
+        </p>
+        <table>  <thead>    <tr>      <th></th>      <th>Outcome</th>    </tr>  </thead>  <tbody>    <tr>      <th>True</th>      <td>500</td>    </tr>    <tr>      <th>False</th>      <td>213</td>    </tr>  </tbody></table>
+        <p>
+          At this point a new model can be trained.
+          This time, I chose to use the Logit class from the statsmodels api.
+          The results of the model are below.
+        </p>
+        <table class="simpletable"><caption>Logit Regression Results</caption><tr>  <th>Dep. Variable:</th>        <td>Outcome</td>     <th>  No. Observations:  </th>  <td>   713</td>  </tr><tr>  <th>Model:</th>                 <td>Logit</td>      <th>  Df Residuals:      </th>  <td>   706</td>  </tr><tr>  <th>Method:</th>                 <td>MLE</td>       <th>  Df Model:          </th>  <td>     6</td>  </tr><tr>  <th>Date:</th>            <td>Sat, 30 Sep 2023</td> <th>  Pseudo R-squ.:     </th>  <td>0.2350</td>  </tr><tr>  <th>Time:</th>                <td>20:57:02</td>     <th>  Log-Likelihood:    </th> <td> -332.61</td> </tr><tr>  <th>converged:</th>             <td>True</td>       <th>  LL-Null:           </th> <td> -434.78</td> </tr><tr>  <th>Covariance Type:</th>     <td>nonrobust</td>    <th>  LLR p-value:       </th> <td>2.267e-41</td></tr></table><table class="simpletable"><tr>               <td></td>                 <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  </tr><tr>  <th>pass_distance</th>              <td>    0.0382</td> <td>    0.006</td> <td>    6.352</td> <td> 0.000</td> <td>    0.026</td> <td>    0.050</td></tr><tr>  <th>nbr_of_interceptors</th>        <td>   -0.7854</td> <td>    0.130</td> <td>   -6.028</td> <td> 0.000</td> <td>   -1.041</td> <td>   -0.530</td></tr><tr>  <th>nearest_defender_dist</th>      <td>    0.0125</td> <td>    0.009</td> <td>    1.342</td> <td> 0.180</td> <td>   -0.006</td> <td>    0.031</td></tr><tr>  <th>nearest_defender_angle</th>     <td>    0.0017</td> <td>    0.001</td> <td>    1.922</td> <td> 0.055</td> <td>-3.36e-05</td> <td>    0.003</td></tr><tr>  <th>nearest_defender_speed</th>     <td>   -0.4726</td> <td>    0.062</td> <td>   -7.577</td> <td> 0.000</td> <td>   -0.595</td> <td>   -0.350</td></tr><tr>  <th>nearest_defender_speed_rel</th> <td>    1.2923</td> <td>    0.190</td> <td>    6.815</td> <td> 0.000</td> <td>    0.921</td> <td>    1.664</td></tr><tr>  <th>receiver_speed</th>             <td>    0.2600</td> <td>    0.049</td> <td>    5.352</td> <td> 0.000</td> <td>    0.165</td> <td>    0.355</td></tr></table> 
+        <p>
+          While still not a good model, this provides much more to work with.
+          Let's apply it to the field!
+        </p>
+        <h3>
+          Taking Action
+        </h3>
+        <p>
+          Many people would struggle to find any model useful.
+          All of the work completed up to this point is a waste if it can't be consumed effectively by the players on our team.
+          Therefore, it needs to be presented well.
+          There are two approaches I would take to communicating these results.
+        </p>
+        <p>
+          First, the model summary statistics are very valuable to our decision-making.
+          The summary shows us which predictors are most important.
+          Based on P-value, we can see that the nearest defender's distance and angle from the receiver are not very important.
+          In contrast pass distance, number of interceptors, nearest defender speed, nearest defender relative speed, and receiver speed are most important.
+          If this was a reliable model (which it's not), we could instruct our players to only focus on what is important.
+          Similarly, we should look at the coefficients of the predictors to see how to evaluate.
+          For example, the pass_distance variable has a positive coefficient, which indicates that longer passes have a higher likelihood of completion.
+          The number of interceptors variable has a negative coefficient, which indicates that fewer interceptors is better.
+          Information like this can be translated into very simple instructions: hit the ball far where there is the fewest number of defenders in the way.
+        </p>
+        <p>
+          Second, we can present pass completion probabilities visually in match video.
+          To display pass probabilities, we only need to derive the predictors for each player on the field per frame, then run the model predictions.
+          Once predictions have been established, they can be plotted to video.
+          The video below shows the pass completion probabilities for every pass option.
+          It clearly shows whether the pass decision was a good idea or a bad idea relative to all the other options.
+        </p>
+           <div id="youtube_iframe">
+            <iframe src="https://www.youtube.com/embed/W4mNetyDUSI?si=VXRX5CGj46jv-4Co" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+  
+            </iframe>
+            </div>
         <h2>
-            Conclusion
+            Conclusion & Next Steps
         </h2>
           <p>
-           Coming soon...
+           This analytics approach provides endless opportunities for team improvements.
+           With enough data, models can be built to examine any number of situations within a match.
+           We could even build models to simulate thousands of matches to find the best strategy.
+           Most importantly, this communication of the model results is an effective way for the team to learn.
+           Coaches can spend a lifetime learning the game and figuring out which strategies work best.
+           This analytical method would empower a coach and team to learn in a fraction of the time.
           </p>
         <h2>
-            Citations
-        </h2>
-          <p>
-            Data: <a target="_blank" rel="noopener noreferrer"  href="https://cocodataset.org/#home">COCO</a> 
-            <br> Github: <a target="_blank" rel="noopener noreferrer"  href="https://github.com/bharath5673/StrongSORT-YOLO">StrongSORT-YOLO</a>
-            <br> Publication: <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/2202.13514">StrongSORT</a>
-            <br> Publication: <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/1506.02640">YOLO</a>
-            <br> Publication: <a target="_blank" rel="noopener noreferrer"  href="https://arxiv.org/abs/2207.02696">YOLOv7</a>
-            <br> Python Library: <a target="_blank" rel="noopener noreferrer"  href="https://opencv.org/">OpenCv</a> 
-          </p>
+        
         <h2>
             My Links
         </h2>
